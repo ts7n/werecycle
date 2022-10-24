@@ -60,8 +60,6 @@ function App(): JSX.Element {
     setProgress(Number(window.localStorage.getItem('progress')) || 0);
   }, [module]);
 
-  console.log('module', module, module === 4);
-
   if (module === 1) { // What is recycling?
     return (
       <>
@@ -176,8 +174,6 @@ function App(): JSX.Element {
       </>
     )
   }
-
-  return <></>; // backup for tsx types
 }
 
 export function CompletionModal({ open, setOpen, progress }: { open: boolean, setOpen: any, progress: number }) {

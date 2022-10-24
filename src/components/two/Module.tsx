@@ -101,6 +101,7 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         {/* Game: Pick to throw something out or recycle it, and using physics.js show the landfill based on what you choose */}
+                        
                       </>
                     )
                   }

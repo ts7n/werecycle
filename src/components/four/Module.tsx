@@ -59,35 +59,35 @@ export default function Module4({ onComplete }: { onComplete: any }): JSX.Elemen
                   } else if (page === 3) {
                     return (
                       <>
-                        <img alt="Paper" className="mb-6 rounded-2xl h-56 w-full object-cover drop-shadow-xl" src="/module4/page3/image.png" />
+                        <img alt="Paper" className="mb-6 rounded-2xl w-full object-cover drop-shadow-xl" src="/module4/page3/image.png" />
                         <h1 className="font-cursive text-center text-white text-xl font-bold">#1: Paper</h1>
                       </>
                     )
                   } else if (page === 4) {
                     return (
                       <>
-                        <img alt="Cardboard" className="mb-6 rounded-2xl h-56 w-full object-cover drop-shadow-xl" src="/module4/page4/image.png" />
+                        <img alt="Cardboard" className="mb-6 rounded-2xl h-96 w-full object-cover drop-shadow-xl" src="/module4/page4/image.png" />
                         <h1 className="font-cursive text-center text-white text-xl font-bold">#2: Cardboard</h1>
                       </>
                     )
                   } else if (page === 5) {
                     return (
                       <>
-                        <img alt="Glass" className="mb-6 rounded-2xl h-56 w-full object-cover drop-shadow-xl" src="/module4/page5/image.png" />
+                        <img alt="Glass" className="mb-6 rounded-2xl h-64 w-full object-cover drop-shadow-xl" src="/module4/page5/image.png" />
                         <h1 className="font-cursive text-center text-white text-xl font-bold">#3: Glass Containers</h1>
                       </>
                     )
                   } else if (page === 6) {
                     return (
                       <>
-                        <img alt="Aluminum" className="mb-6 rounded-2xl h-56 w-full object-cover drop-shadow-xl" src="/module4/page6/image.png" />
+                        <img alt="Aluminum" className="mb-6 rounded-2xl h-96 w-full object-cover drop-shadow-xl" src="/module4/page6/image.png" />
                         <h1 className="font-cursive text-center text-white text-xl font-bold">#4: Aluminum Foil and Containers</h1>
                       </>
                     )
                   } else if (page === 7) {
                     return (
                       <>
-                        <img alt="Plastic" className="mb-6 rounded-2xl h-56 w-full object-cover drop-shadow-xl" src="/module4/page7/image.png" />
+                        <img alt="Plastic" className="mb-6 rounded-2xl h-96 w-full object-cover drop-shadow-xl" src="/module4/page7/image.png" />
                         <h1 className="font-cursive text-center text-white text-xl font-bold">#5: Plastic Containers</h1>
                       </>
                     )
