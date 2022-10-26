@@ -92,8 +92,6 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         {/* Game: Match items and what they can turn it into if recycled */}
-
-
                         <p className="font-cursive text-center mt-1 mb-4 text-md text-gray-50">Game: match items and what they can turn into if upcycled (turned into something new instead of thrown out).</p>
                         <div className="grid gap-2 grid-cols-4">
                           {!hidden.includes(50) ?
@@ -144,7 +142,9 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
                             </button>}
                         </div>
                         <p className="mt-2 font-cursive text-center mt-1 text-sm text-gray-300">Water bottle: https://foshbottle.com/blogs/fosh/60-ways-to-reuse-plastic-bottles</p>
-                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Socks: https://www.conserve-energy-future.com/can-you-recycle-egg-cartons.php</p>
+                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Socks: </p>
+                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Egg carton: https://artsycraftsymom.com/egg-carton-crafts-for-kids/#16_Make_an_Egg_Carton_Boat</p>
+                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Cardboard box: https://www.hellowonderful.co/post/10-creative-ways-to-recycle-cardboard-into-kids-crafts/</p>
                       </>
                     )
                   }
