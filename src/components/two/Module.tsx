@@ -9,6 +9,8 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
   const [fading, setFading] = useState(false);
 
   const nextPage = () => {
+    setPage(9);
+    return;
     if (page >= 9) {
       setLeaving(true);
       setTimeout(() => {
@@ -29,6 +31,70 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
     window.onkeypress = (e) => {
       if (e.key === ' ') nextPage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  // Game state & logic
+  useEffect(() => {
+    if(page === 9) {
+      const Matter = (window as any).Matter;
+      const engine = Matter.Engine.create();
+
+      const canvas = document.getElementById('physics-pit') as HTMLElement;
+      const render = Matter.Render.create({
+        element: canvas,
+        engine: engine,
+        options: {
+          width: canvas.offsetWidth,
+          height: canvas.offsetHeight,
+          background: 'transparent',
+          wireframes: false,
+          wireframeBackground: 'transparent',
+        }
+      });
+
+      Matter.Render.run(render);
+      const runner = Matter.Runner.create();
+      Matter.Runner.run(runner, engine);
+
+      Matter.Composite.add(engine.world, [
+        Matter.Bodies.rectangle(canvas.offsetHeight / 2, 0, canvas.offsetWidth, 35, { isStatic: true, fillStyle: 'transparent' }),
+        Matter.Bodies.rectangle(canvas.offsetHeight / 2, 600, canvas.offsetWidth, 35, { isStatic: true }),
+        Matter.Bodies.rectangle(0, 0, 35, canvas.offsetWidth, { isStatic: true }),
+        Matter.Bodies.rectangle(canvas.offsetWidth - 35, 0, 35, window.innerWidth, { isStatic: true }),
+      ]);
+
+      Matter.Composite.add(engine.world, [
+        Matter.Bodies.rectangle(600, 460, 80, 80),
+      ]);
+
+      const mouse = Matter.Mouse.create(render.canvas);
+      const mouseConstraint = Matter.MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+          stiffness: 0.2,
+          render: { visible: false },
+        },
+      });
+
+      Matter.Composite.add(engine.world, mouseConstraint);
+      render.mouse = mouse;
+
+      Matter.Render.lookAt(render, {
+        min: { x: 0, y: 0 },
+        max: { x: 800, y: 600 },
+      });
+      
+      const allBodies = Matter.Composite.allBodies(engine.world);
+
+      for(let i = 0; i < allBodies.length; i += 1) {
+        allBodies[i].plugin.wrap = {
+          min: { x: render.bounds.min.x - 100, y: render.bounds.min.y },
+          max: { x: render.bounds.max.x + 100, y: render.bounds.max.y },
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
 
   return (
@@ -38,7 +104,7 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
       </AnimatePresence>
       <div className="absolute w-full h-full bg-[url('/public/module2/bg.png')] bg-left" />
       <div className="absolute z-10 w-full h-full">
-        <Center>
+        <Center skip={page === 9}>
           <div className="w-1/2 h-auto">
             {/* Page Content */}
             <AnimatePresence>
@@ -101,7 +167,7 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         {/* Game: Pick to throw something out or recycle it, and using physics.js show the landfill based on what you choose */}
-                        
+                        <canvas className="w-full h-full" id="physics-pit" />
                       </>
                     )
                   }

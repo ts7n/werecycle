@@ -29,7 +29,8 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
     window.onkeypress = (e) => {
       if (e.key === ' ') nextPage();
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // <-- Game state & logic
   const [hidden, setHidden] = useState<number[]>([]);
@@ -46,6 +47,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
 
   useEffect(() => {
     if(hidden.length === 10) nextPage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ hidden ]);
   // -->
 
