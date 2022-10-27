@@ -37,12 +37,15 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
   // Game state & logic
   useEffect(() => {
     if(page === 9) {
+      const existingCanvas = document.getElementsByTagName('canvas');
+      if(existingCanvas.length !== 0) return;
+
       const Matter = (window as any).Matter;
       const engine = Matter.Engine.create();
 
-      const canvas = document.getElementById('physics-pit') as HTMLElement;
+      const container = document.getElementById('physics-pit') as HTMLElement;
       const render = Matter.Render.create({
-        element: canvas,
+        element: container,
         engine: engine,
         options: {
           width: window.innerWidth,
@@ -57,15 +60,22 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
       const runner = Matter.Runner.create();
       Matter.Runner.run(runner, engine);
 
+      const canvas = document.getElementsByTagName('canvas')[0];
+      canvas.width = container.offsetWidth;
+      canvas.height = container.offsetHeight;
+
       Matter.Composite.add(engine.world, [
-        // x, y, width, height
-        Matter.Bodies.rectangle(window.innerWidth / (window.innerHeight / 3.725) - 500, window.innerHeight - (window.innerHeight / 5.725), window.innerWidth, 60, { isStatic: true }),
-        // Matter.Bodies.rectangle(-30, canvas.offsetHeight / 2, 60, canvas.offsetHeight, { isStatic: true }),
-        // Matter.Bodies.rectangle(canvas.offsetWidth + 30, canvas.offsetHeight / 2, 60, canvas.offsetHeight, { isStatic: true }),
+        Matter.Bodies.rectangle(canvas.width / 2, canvas.height + 30, canvas.width, 15, { isStatic: true, render: { fillStyle: 'rgba(0, 0, 0, 0.5)' } }),
+        Matter.Bodies.rectangle(-30, canvas.height / 2, 15, canvas.height, { isStatic: true, render: { fillStyle: 'transparent' } }),
+        Matter.Bodies.rectangle(canvas.width + 30, canvas.height / 2, 15, canvas.height, { isStatic: true, render: { fillStyle: 'transparent' } }),
       ]);
 
       Matter.Composite.add(engine.world, [
-        Matter.Bodies.rectangle(600, 460, 80, 80),
+        Matter.Bodies.circle(600, 460, 80, {
+          render: {
+            fillStyle: 'black',
+          }
+        }),
       ]);
 
       const mouse = Matter.Mouse.create(render.canvas);
@@ -81,18 +91,9 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
       render.mouse = mouse;
 
       Matter.Render.lookAt(render, {
-        min: { x: 0, y: 0 },
-        max: { x: 800, y: 600 },
+        min: { x: 73, y: -32 },
+        max: { x: canvas.width - 90, y: canvas.height + 32 },
       });
-      
-      const allBodies = Matter.Composite.allBodies(engine.world);
-
-      for(let i = 0; i < allBodies.length; i += 1) {
-        allBodies[i].plugin.wrap = {
-          min: { x: render.bounds.min.x - 100, y: render.bounds.min.y },
-          max: { x: render.bounds.max.x + 100, y: render.bounds.max.y },
-        }
-      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   });
@@ -105,10 +106,10 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
       <div className="absolute w-full h-full bg-[url('/public/module2/bg.png')] bg-left" />
       <div className="absolute z-10 w-full h-full">
         <Center skip={page === 9}>
-          <div className="w-1/2 h-auto">
+          <div className={`${page === 9 ? 'w-full h-full' : 'w-1/2 h-auto'}`}>
             {/* Page Content */}
             <AnimatePresence>
-              {!fading ? <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              {!fading ? <motion.div className={page === 9 ? 'w-full h-full' : ''} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 {(() => {
                   if (page === 1) {
                     return (
