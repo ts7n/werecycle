@@ -142,7 +142,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
                             </button>}
                         </div>
                         <p className="mt-2 font-cursive text-center mt-1 text-sm text-gray-300">Water bottle: https://foshbottle.com/blogs/fosh/60-ways-to-reuse-plastic-bottles</p>
-                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Socks: </p>
+                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Socks: https://masandpas.com/sock-puppets/</p>
                         <p className="font-cursive text-center mt-1 text-sm text-gray-300">Egg carton: https://artsycraftsymom.com/egg-carton-crafts-for-kids/#16_Make_an_Egg_Carton_Boat</p>
                         <p className="font-cursive text-center mt-1 text-sm text-gray-300">Cardboard box: https://www.hellowonderful.co/post/10-creative-ways-to-recycle-cardboard-into-kids-crafts/</p>
                       </>

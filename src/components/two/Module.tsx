@@ -45,8 +45,8 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
         element: canvas,
         engine: engine,
         options: {
-          width: canvas.offsetWidth,
-          height: canvas.offsetHeight,
+          width: window.innerWidth,
+          height: window.innerHeight,
           background: 'transparent',
           wireframes: false,
           wireframeBackground: 'transparent',
@@ -58,10 +58,10 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
       Matter.Runner.run(runner, engine);
 
       Matter.Composite.add(engine.world, [
-        Matter.Bodies.rectangle(canvas.offsetHeight / 2, 0, canvas.offsetWidth, 35, { isStatic: true, fillStyle: 'transparent' }),
-        Matter.Bodies.rectangle(canvas.offsetHeight / 2, 600, canvas.offsetWidth, 35, { isStatic: true }),
-        Matter.Bodies.rectangle(0, 0, 35, canvas.offsetWidth, { isStatic: true }),
-        Matter.Bodies.rectangle(canvas.offsetWidth - 35, 0, 35, window.innerWidth, { isStatic: true }),
+        // x, y, width, height
+        Matter.Bodies.rectangle(window.innerWidth / (window.innerHeight / 3.725) - 500, window.innerHeight - (window.innerHeight / 5.725), window.innerWidth, 60, { isStatic: true }),
+        // Matter.Bodies.rectangle(-30, canvas.offsetHeight / 2, 60, canvas.offsetHeight, { isStatic: true }),
+        // Matter.Bodies.rectangle(canvas.offsetWidth + 30, canvas.offsetHeight / 2, 60, canvas.offsetHeight, { isStatic: true }),
       ]);
 
       Matter.Composite.add(engine.world, [
@@ -167,7 +167,7 @@ export default function Module2({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         {/* Game: Pick to throw something out or recycle it, and using physics.js show the landfill based on what you choose */}
-                        <canvas className="w-full h-full" id="physics-pit" />
+                        <div className="w-full h-full" id="physics-pit" />
                       </>
                     )
                   }
