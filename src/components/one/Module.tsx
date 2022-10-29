@@ -18,6 +18,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
       setFading(true);
       setTimeout(() => {
         setPage(page + 1);
+        console.log(page + 1);
       }, 300);
       setTimeout(() => {
         setFading(false);
@@ -27,11 +28,11 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
 
   useEffect(() => {
     window.onkeypress = (e) => {
-      if(!(page < 5)) return;
+      if(page === 5) return;
       if (e.key === ' ') nextPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   // <-- Game state & logic
   const [hidden, setHidden] = useState<number[]>([]);
@@ -89,7 +90,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
                         <h1 className="font-cursive text-center text-white text-xl font-bold">Otherwise, you can put it in a recycling bin and someone else will give it a second life for you.</h1>
                       </>
                     )
-                  } else if (page >= 5) {
+                  } else if (page === 5) {
                     return (
                       <>
                         {/* Game: Match items and what they can turn it into if recycled */}
@@ -107,45 +108,46 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
                             : null}
                           {!hidden.includes(10) ?
                             <button onClick={() => handleSelect(10)}>
-                              <img className={`${selection === 10 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Upcycled water bottle" src="/module1/game/item1pair.png" />
+                              <img className={`${selection === 10 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Upcycled water bottle" src="/module1/game/item1pair.png" />
                             </button>
                             : null}
                           {!hidden.includes(2) &&
                             <button onClick={() => handleSelect(2)}>
-                              <img className={`${selection === 2 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Socks" src="/module1/game/item2.png" />
+                              <img className={`${selection === 2 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Socks" src="/module1/game/item2.png" />
                             </button>}
                           {!hidden.includes(3) &&
                             <button onClick={() => handleSelect(3)}>
-                              <img className={`${selection === 3 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Empty egg carton" src="/module1/game/item3.png" />
+                              <img className={`${selection === 3 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Empty egg carton" src="/module1/game/item3.png" />
                             </button>}
                           {!hidden.includes(30) ?
                             <button onClick={() => handleSelect(30)}>
-                              <img className={`${selection === 30 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Upcycled empty egg carton" src="/module1/game/item3pair.png" />
+                              <img className={`${selection === 30 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Upcycled empty egg carton" src="/module1/game/item3pair.png" />
                             </button>
                             : null}
                           {!hidden.includes(4) &&
                             <button onClick={() => handleSelect(4)}>
-                              <img className={`${selection === 4 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Cardboard box" src="/module1/game/item4.png" />
+                              <img className={`${selection === 4 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Cardboard box" src="/module1/game/item4.png" />
                             </button>}
                           {!hidden.includes(40) ?
                             <button onClick={() => handleSelect(40)}>
-                              <img className={`${selection === 40 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Upcycled cardboard box" src="/module1/game/item4pair.png" />
+                              <img className={`${selection === 40 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Upcycled cardboard box" src="/module1/game/item4pair.png" />
                             </button>
                             : null}
                           {!hidden.includes(20) ?
                             <button onClick={() => handleSelect(20)}>
-                              <img className={`${selection === 20 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Upcycled socks" src="/module1/game/item2pair.png" />
+                              <img className={`${selection === 20 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Upcycled socks" src="/module1/game/item2pair.png" />
                             </button>
                             : null}
                           {!hidden.includes(5) &&
                             <button onClick={() => handleSelect(5)}>
-                              <img className={`${selection === 5 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Mason jar" src="/module1/game/item5.png" />
+                              <img className={`${selection === 5 ? 'border-2 border-gray-400 rounded-xl' : ''} w-24 h-auto`} alt="Mason jar" src="/module1/game/item5.png" />
                             </button>}
                         </div>
-                        <p className="mt-2 font-cursive text-center text-sm text-gray-300">Water bottle: https://foshbottle.com/blogs/fosh/60-ways-to-reuse-plastic-bottles</p>
-                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Socks: https://masandpas.com/sock-puppets/</p>
-                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Egg carton: https://artsycraftsymom.com/egg-carton-crafts-for-kids/#16_Make_an_Egg_Carton_Boat</p>
-                        <p className="font-cursive text-center mt-1 text-sm text-gray-300">Cardboard box: https://www.hellowonderful.co/post/10-creative-ways-to-recycle-cardboard-into-kids-crafts/</p>
+                        <p className="mt-3 font-cursive text-center text-xs text-gray-300">Water bottle: https://foshbottle.com/blogs/fosh/60-ways-to-reuse-plastic-bottles</p>
+                        <p className="font-cursive text-center mt-1 text-xs text-gray-300">Socks: https://masandpas.com/sock-puppets/</p>
+                        <p className="font-cursive text-center mt-1 text-xs text-gray-300">Egg carton: https://artsycraftsymom.com/egg-carton-crafts-for-kids/#16_Make_an_Egg_Carton_Boat</p>
+                        <p className="font-cursive text-center mt-1 text-xs text-gray-300">Cardboard box: https://www.hellowonderful.co/post/10-creative-ways-to-recycle-cardboard-into-kids-crafts/</p>
+                        <p className="font-cursive text-center mt-1 text-xs text-gray-300">Mason jar: https://cutediyprojects.com/home-decor/40-awesome-cheap-diy-ways-recycle-mason-jars/</p>
                       </>
                     )
                   }
@@ -153,7 +155,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
               </motion.div> : null}
             </AnimatePresence>
             {/* Controls */}
-            {page < 5 &&
+            {page !== 5 &&
               <div className="absolute bottom-12 right-12">
                 <button
                   id="next-page"

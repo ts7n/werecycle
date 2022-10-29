@@ -87,7 +87,7 @@ export default function Module3({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         <img alt="A recycle bin" className="mb-6 rounded-2xl h-56 w-full object-cover drop-shadow-xl" src="/module3/page5/image.png" />
-                        <h1 className="font-cursive text-center text-white text-xl font-bold">If there is no way to reuse or repurpose somethihng (or don't have time), you can put it in a recycling bin and it will go to a facility where it is cleaned and processed so it can have a second life.</h1>
+                        <h1 className="font-cursive text-center text-white text-xl font-bold">If there is no way to reuse or repurpose something (or you don't have time), you can put it in a recycling bin and it will go to a facility where it is cleaned and processed so it can have a second life.</h1>
                       </>
                     )
                   } else if (page === 6) {
