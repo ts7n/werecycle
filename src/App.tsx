@@ -222,7 +222,7 @@ export function CompletionModal({ open, setOpen, progress }: { open: boolean, se
                 <div className="mt-5 sm:mt-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-gray-900 sm:text-sm"
+                    className="ripple transition duration-200 inline-flex w-full justify-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-gray-900 sm:text-sm"
                     onClick={() => setOpen(false)}
                   >
                     Dismiss

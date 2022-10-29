@@ -9,7 +9,7 @@ export default function Module3({ onComplete }: { onComplete: any }): JSX.Elemen
   const [fading, setFading] = useState(false);
 
   const nextPage = () => {
-    if (page >= 7) {
+    if (page >= 8) {
       setLeaving(true);
       setTimeout(() => {
         onComplete();
@@ -27,9 +27,22 @@ export default function Module3({ onComplete }: { onComplete: any }): JSX.Elemen
 
   useEffect(() => {
     window.onkeypress = (e) => {
+      if (!(page < 7)) return;
       if (e.key === ' ') nextPage();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   });
+
+  // Game state & logic
+  const [found, setFound] = useState<number[]>([]);
+
+  useEffect(() => {
+    if ([ ...new Set(found) ].length === 2) {
+      setFound([]);
+      nextPage();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [found]);
 
   return (
     <>
@@ -87,6 +100,28 @@ export default function Module3({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         {/* Game: Where's Waldo but with recycling bins */}
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                          <p className="font-cursive text-center mt-1 mb-4 text-md text-gray-50">Game: Identify (and click) the recycling bins in this picture.</p>
+                          <div className="flex justify-center">
+                            <button onClick={() => setFound([...found, 0])} className={`${found.includes(0) ? 'bg-green-400/50' : ''} cursor-default z-10 absolute p-3 left-[121px] top-[411px] rounded-full`} />
+                            <button onClick={() => setFound([...found, 1])} className={`${found.includes(1) ? 'bg-blue-400/50' : ''} cursor-default z-10 absolute p-3 left-[276px] top-[407px] rounded-full`} />
+                            <img alt="City with two recycling bins" className="w-[442px] h-[589.328px] object-cover drop-shadow-xl rounded-2xl" src="/module3/game/img1.png" />
+                          </div>
+                        </div>
+                      </>
+                    )
+                  } else if (page === 8) {
+                    return (
+                      <>
+                        {/* Game - puzzle #2 */}
+                        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                          <p className="font-cursive text-center mt-1 mb-4 text-md text-gray-50">Game: Identify (and click) the recycling bins in this picture.</p>
+                          <div className="flex justify-center">
+                            <button onClick={() => setFound([...found, 0])} className={`${found.includes(0) ? 'bg-green-400/50' : ''} cursor-default z-10 absolute p-3 left-[51.1px] top-[419px] rounded-full`} />
+                            <button onClick={() => setFound([...found, 1])} className={`${found.includes(1) ? 'bg-blue-400/50' : ''} cursor-default z-10 absolute p-4 left-[358px] top-[395px] rounded-full`} />
+                            <img alt="City with two recycling bins" className="w-[447.844px] h-[597.125px] object-cover drop-shadow-xl rounded-2xl" src="/module3/game/img2.png" />
+                          </div>
+                        </div>
                       </>
                     )
                   }
@@ -94,17 +129,18 @@ export default function Module3({ onComplete }: { onComplete: any }): JSX.Elemen
               </motion.div> : null}
             </AnimatePresence>
             {/* Controls */}
-            <div className="absolute bottom-12 right-12">
-              <button
-                id="next-page"
-                type="button"
-                onClick={nextPage}
-                className="font-cursive drop-shadow-lg hover:bg-teal-700 ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
-              >
-                Next
-                <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-              </button>
-            </div>
+            {page < 7 &&
+              <div className="absolute bottom-12 right-12">
+                <button
+                  id="next-page"
+                  type="button"
+                  onClick={nextPage}
+                  className="font-cursive drop-shadow-lg hover:bg-teal-700 ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                >
+                  Next
+                  <ArrowRightIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
+                </button>
+              </div>}
           </div>
         </Center>
       </div>

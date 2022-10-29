@@ -27,6 +27,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
 
   useEffect(() => {
     window.onkeypress = (e) => {
+      if(!(page < 5)) return;
       if (e.key === ' ') nextPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -141,7 +142,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
                               <img className={`${selection === 5 ? 'border-2 border-gray-400 rounded-xl' : ''} w-36 h-auto`} alt="Mason jar" src="/module1/game/item5.png" />
                             </button>}
                         </div>
-                        <p className="mt-2 font-cursive text-center mt-1 text-sm text-gray-300">Water bottle: https://foshbottle.com/blogs/fosh/60-ways-to-reuse-plastic-bottles</p>
+                        <p className="mt-2 font-cursive text-center text-sm text-gray-300">Water bottle: https://foshbottle.com/blogs/fosh/60-ways-to-reuse-plastic-bottles</p>
                         <p className="font-cursive text-center mt-1 text-sm text-gray-300">Socks: https://masandpas.com/sock-puppets/</p>
                         <p className="font-cursive text-center mt-1 text-sm text-gray-300">Egg carton: https://artsycraftsymom.com/egg-carton-crafts-for-kids/#16_Make_an_Egg_Carton_Boat</p>
                         <p className="font-cursive text-center mt-1 text-sm text-gray-300">Cardboard box: https://www.hellowonderful.co/post/10-creative-ways-to-recycle-cardboard-into-kids-crafts/</p>

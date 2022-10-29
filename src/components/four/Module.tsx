@@ -95,6 +95,7 @@ export default function Module4({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         {/* Game: Whack a mole but you can only hit recyclable items */}
+                        <p className="font-cursive text-center mt-1 mb-4 text-md text-gray-50">Game: Now it's time to identify</p>
                       </>
                     )
                   }
