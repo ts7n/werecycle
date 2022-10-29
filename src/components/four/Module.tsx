@@ -95,7 +95,18 @@ export default function Module4({ onComplete }: { onComplete: any }): JSX.Elemen
                     return (
                       <>
                         {/* Game: Whack a mole but you can only hit recyclable items */}
-                        <p className="font-cursive text-center mt-1 mb-4 text-md text-gray-50">Game: Now it's time to identify</p>
+                        <p className="font-cursive text-center mt-1 mb-4 text-md text-gray-50">Game: Now, test your knowledge by hitting the items that can be recycled as they pop up.</p>
+                        <div className="grid grid-cols-4">
+                          {[ ...Array(16).keys() ].map((i) => {
+                            return (
+                              <>
+                                <div className="rounded-lg border-2 border-gray-50">
+
+                                </div>
+                              </>
+                            )
+                          })}
+                        </div>
                       </>
                     )
                   }
