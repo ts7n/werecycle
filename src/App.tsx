@@ -1,5 +1,5 @@
 import './App.css';
-import { CheckBadgeIcon, CheckIcon, PresentationChartLineIcon } from '@heroicons/react/24/outline';
+import { CheckBadgeIcon, CheckIcon, EnvelopeIcon, IdentificationIcon, LinkIcon, PresentationChartLineIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { TrophyIcon } from '@heroicons/react/24/solid';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { Fragment, useState, useEffect } from "react";
@@ -9,9 +9,12 @@ import Module1 from './components/one/Module';
 import Module2 from './components/two/Module';
 import Module3 from './components/three/Module';
 import Module4 from './components/four/Module';
+import { auth, google } from './lib/firebase';
+import { signInWithPopup } from 'firebase/auth';
 
 function App(): JSX.Element {
   const [module, setModule] = useState<number | string | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [fading, setFading] = useState(false);
   const [backFading, setBackFading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -60,6 +63,14 @@ function App(): JSX.Element {
 
     setProgress(Number(window.localStorage.getItem('progress')) || 0);
   }, [module]);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((state) => {
+      setUser(state);
+    });
+  }, []);
+
+  console.log(user);
 
   if (module === 1) { // What is recycling?
     return (
@@ -122,53 +133,98 @@ function App(): JSX.Element {
                 <div className="font-cursive text-center">
                   <h1 className="text-3xl text-white font-bold">Learn to recycle!</h1>
                   <p className="mt-1 mb-3 text-md text-gray-50">A fun game to teach kids how to recycle. Complete all 4 modules to earn a certificate!</p>
-                  <div className="flex gap-3 mb-4 w-full justify-center">
-                    <button id="module1" onClick={() => {
-                      if (progress === 0) {
-                        switchModule(1);
+                  {user ? <div>
+                    <div className="flex gap-3 mb-4 w-full justify-center">
+                      <button id="module1" onClick={() => {
+                        if (progress === 0) {
+                          switchModule(1);
+                        }
+                      }} className="border-gray-300 drop-shadow-xl">
+                        <img alt="Icon for Module 1" className={`${progress === 0 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module1/icon.png" />
+                      </button>
+                      <button id="module2" onClick={() => {
+                        if (progress === 1) {
+                          switchModule(2);
+                        }
+                      }} className="border-gray-300 drop-shadow-xl">
+                        <img alt="Icon for Module 2" className={`${progress === 1 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module2/icon.png" />
+                      </button>
+                      <button id="module3" onClick={() => {
+                        if (progress === 2) {
+                          switchModule(3);
+                        }
+                      }} className="border-gray-300 drop-shadow-xl">
+                        <img alt="Icon for Module 3" className={`${progress === 2 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module3/icon.png" />
+                      </button>
+                      <button id="module4" onClick={() => {
+                        if (progress === 3) {
+                          switchModule(4);
+                        }
+                      }} className="border-gray-300 drop-shadow-xl">
+                        <img alt="Icon for Module 4" className={`${progress === 3 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module4/icon.png" />
+                      </button>
+                    </div>
+                    <button
+                      id="get-certificate"
+                      type="button"
+                      onClick={() => { if (progress === 4) setShowCertificate(true) }}
+                      disabled={progress !== 4}
+                      className={`${progress === 4 ? 'hover:bg-teal-700 ripple' : ''} transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900`}
+                    >
+                      {
+                        progress === 4 ? <>
+                          <CheckBadgeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                          Get your certificate!
+                        </> : <>
+                          <PresentationChartLineIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                          Progress to certificate: {progress}/4
+                        </>
                       }
-                    }} className="border-gray-300 drop-shadow-xl">
-                      <img alt="Icon for Module 1" className={`${progress === 0 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module1/icon.png" />
                     </button>
-                    <button id="module2" onClick={() => {
-                      if (progress === 1) {
-                        switchModule(2);
-                      }
-                    }} className="border-gray-300 drop-shadow-xl">
-                      <img alt="Icon for Module 2" className={`${progress === 1 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module2/icon.png" />
-                    </button>
-                    <button id="module3" onClick={() => {
-                      if (progress === 2) {
-                        switchModule(3);
-                      }
-                    }} className="border-gray-300 drop-shadow-xl">
-                      <img alt="Icon for Module 3" className={`${progress === 2 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module3/icon.png" />
-                    </button>
-                    <button id="module4" onClick={() => {
-                      if (progress === 3) {
-                        switchModule(4);
-                      }
-                    }} className="border-gray-300 drop-shadow-xl">
-                      <img alt="Icon for Module 4" className={`${progress === 3 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module4/icon.png" />
-                    </button>
-                  </div>
-                  <button
-                    id="get-certificate"
-                    type="button"
-                    onClick={() => { if(progress === 4) setShowCertificate(true) }}
-                    disabled={progress !== 4}
-                    className={`${progress === 4 ? 'hover:bg-teal-700 ripple' : ''} transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900`}
-                  >
-                    {
-                      progress === 4 ? <>
-                        <CheckBadgeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                        Get your certificate!
-                      </> : <>
-                        <PresentationChartLineIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                        Progress to certificate: {progress}/4
-                      </>
-                    }
-                  </button>
+                  </div> : <div>
+                    <div>
+                      <label htmlFor="email" className="text-left block text-sm font-medium text-gray-400">
+                        Email
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+                          placeholder="you@example.com"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center mt-3 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => signInWithPopup(auth, google)}
+                        className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                      >
+                        <EnvelopeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                        Email Link
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => signInWithPopup(auth, google)}
+                        className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                      >
+                        <LinkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                        Use Google
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => signInWithPopup(auth, google)}
+                        className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                      >
+                        <XMarkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                        Play Signed Out
+                      </button>
+                    </div>
+                  </div>}
                 </div>
               </div>
             </div>
