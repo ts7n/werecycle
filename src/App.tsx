@@ -10,11 +10,11 @@ import Module2 from './components/two/Module';
 import Module3 from './components/three/Module';
 import Module4 from './components/four/Module';
 import { auth, google } from './lib/firebase';
-import { signInWithPopup } from 'firebase/auth';
+import { signInAnonymously, signInWithPopup } from 'firebase/auth';
 
 function App(): JSX.Element {
   const [module, setModule] = useState<number | string | null>(null);
-  const [user, setUser] = useState<any>(null);
+  const [authUser, setAuthUser] = useState<any>(null);
   const [fading, setFading] = useState(false);
   const [backFading, setBackFading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -66,11 +66,11 @@ function App(): JSX.Element {
 
   useEffect(() => {
     auth.onAuthStateChanged((state) => {
-      setUser(state);
+      setAuthUser(state);
     });
   }, []);
 
-  console.log(user);
+  console.log(authUser);
 
   if (module === 1) { // What is recycling?
     return (
@@ -133,7 +133,7 @@ function App(): JSX.Element {
                 <div className="font-cursive text-center">
                   <h1 className="text-3xl text-white font-bold">Learn to recycle!</h1>
                   <p className="mt-1 mb-3 text-md text-gray-50">A fun game to teach kids how to recycle. Complete all 4 modules to earn a certificate!</p>
-                  {user ? <div>
+                  {authUser ? <div>
                     <div className="flex gap-3 mb-4 w-full justify-center">
                       <button id="module1" onClick={() => {
                         if (progress === 0) {
@@ -217,7 +217,7 @@ function App(): JSX.Element {
 
                       <button
                         type="button"
-                        onClick={() => signInWithPopup(auth, google)}
+                        onClick={() => signInAnonymously(auth)}
                         className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
                       >
                         <XMarkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
