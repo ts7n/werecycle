@@ -1,5 +1,5 @@
 import './App.css';
-import { CheckBadgeIcon, CheckIcon, EnvelopeIcon, IdentificationIcon, LinkIcon, PresentationChartLineIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CheckBadgeIcon, CheckIcon, EnvelopeIcon, IdentificationIcon, LinkIcon, PaperAirplaneIcon, PresentationChartLineIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { TrophyIcon } from '@heroicons/react/24/solid';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { Fragment, useState, useEffect } from "react";
@@ -9,17 +9,21 @@ import Module1 from './components/one/Module';
 import Module2 from './components/two/Module';
 import Module3 from './components/three/Module';
 import Module4 from './components/four/Module';
-import { auth, google } from './lib/firebase';
-import { signInAnonymously, signInWithPopup } from 'firebase/auth';
+import { auth, emailProvider, googleProvider } from './lib/firebase';
+import { isSignInWithEmailLink, sendSignInLinkToEmail, signInAnonymously, signInWithEmailLink, signInWithPopup } from 'firebase/auth';
 
 function App(): JSX.Element {
   const [module, setModule] = useState<number | string | null>(null);
   const [authUser, setAuthUser] = useState<any>(null);
+  const [email, setEmail] = useState('');
+
   const [fading, setFading] = useState(false);
   const [backFading, setBackFading] = useState(false);
   const [progress, setProgress] = useState(0);
+
   const [showBadge, setShowBadge] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
+  const [showEmailSentModal, setShowEmailSentModal] = useState(false);
 
   const switchModule = (module: number | string | null, backFade = false) => {
     if (backFade) {
@@ -68,6 +72,11 @@ function App(): JSX.Element {
     auth.onAuthStateChanged((state) => {
       setAuthUser(state);
     });
+
+    if(isSignInWithEmailLink(auth, window.location.href)) {
+      const loginEmail = window.localStorage.getItem('loginEmail') as string;
+      signInWithEmailLink(auth, loginEmail, window.location.href);
+    }
   }, []);
 
   console.log(authUser);
@@ -121,6 +130,7 @@ function App(): JSX.Element {
       <>
         <CompletionModal open={showBadge} setOpen={setShowBadge} progress={progress} />
         <CertificateModal open={showCertificate} setOpen={setShowCertificate} />
+        <LoginEmailModal open={showEmailSentModal} setOpen={setShowEmailSentModal} />
         <AnimatePresence>
           {backFading ? <motion.div initial={{ opacity: 1 }} animate={{ opacity: 0 }} className="z-30 absolute w-full h-full bg-black transition duration-500" /> : null}
           {fading ? <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="z-30 absolute w-full h-full bg-black transition duration-500" /> : null}
@@ -191,6 +201,7 @@ function App(): JSX.Element {
                           type="email"
                           name="email"
                           id="email"
+                          onChange={(e) => setEmail(e.target.value)}
                           className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
                           placeholder="you@example.com"
                         />
@@ -199,7 +210,14 @@ function App(): JSX.Element {
                     <div className="flex justify-center mt-3 gap-3">
                       <button
                         type="button"
-                        onClick={() => signInWithPopup(auth, google)}
+                        onClick={() => {
+                          window.localStorage.setItem('loginEmail', email);
+                          sendSignInLinkToEmail(auth, email, {
+                            url: 'http://127.0.0.1:3000',
+                            handleCodeInApp: true
+                          }).then(console.log).catch(console.error);
+                          setShowEmailSentModal(true);
+                        }}
                         className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
                       >
                         <EnvelopeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
@@ -208,7 +226,7 @@ function App(): JSX.Element {
 
                       <button
                         type="button"
-                        onClick={() => signInWithPopup(auth, google)}
+                        onClick={() => signInWithPopup(auth, googleProvider)}
                         className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
                       >
                         <LinkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
@@ -349,6 +367,58 @@ export function CertificateModal({ open, setOpen }: { open: boolean, setOpen: an
                   >
                     Generate
                   </button>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  )
+}
+
+export function LoginEmailModal({ open, setOpen }: { open: boolean, setOpen: any }) {
+  return (
+    <Transition.Root show={open} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={() => { }}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-800 backdrop-blur bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="border-2 border-teal-500 relative transform overflow-hidden rounded-lg bg-gray-700 px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                <div>
+                  <div className="border-2 border-green-500 mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-700">
+                    <PaperAirplaneIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                  </div>
+                  <div className="mt-3 text-center sm:mt-5">
+                    <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-300">
+                      We sent you an email!
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-400">
+                        Click the link there to finish signing in.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
