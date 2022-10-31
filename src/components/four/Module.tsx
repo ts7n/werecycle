@@ -27,7 +27,7 @@ export default function Module4({ onComplete }: { onComplete: any }): JSX.Elemen
 
   useEffect(() => {
     window.onkeypress = (e) => {
-      if (!(page < 9)) return;
+      if (!(page < 9 || score >= 20)) return;
       if (e.key === ' ') nextPage();
     }
   });
@@ -39,6 +39,7 @@ export default function Module4({ onComplete }: { onComplete: any }): JSX.Elemen
   useEffect(() => {
     if(page === 9) {
       const resetBoard = () => {
+        if(score >= 20) nextPage();
         setBoard([ ...Array(20).keys() ].map((i) => {
           const random = Math.floor(Math.random() * 33);
           if(random > 25) {
@@ -155,7 +156,7 @@ export default function Module4({ onComplete }: { onComplete: any }): JSX.Elemen
               </motion.div> : null}
             </AnimatePresence>
             {/* Controls */}
-            {page < 9 || score >= 25 &&
+            {page < 9 || score >= 20 &&
             <div className="absolute bottom-12 right-12">
               <button
                 id="next-page"
