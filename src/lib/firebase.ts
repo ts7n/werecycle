@@ -12,9 +12,8 @@ const app = initializeApp({
 });
 
 const auth = getAuth(app);
-const emailProvider = new EmailAuthProvider();
 const googleProvider = new GoogleAuthProvider();
 
 const database = getFirestore(app);
 
-export { auth, database, emailProvider, googleProvider };
+export { auth, database, googleProvider };

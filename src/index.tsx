@@ -5,6 +5,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
+import Admin from './Admin';
 
 const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/manage',
-    element: <h1>Hey there admins!</h1>
+    element: <Admin />
   }
 ]);
 
