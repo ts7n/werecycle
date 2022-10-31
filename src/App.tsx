@@ -295,7 +295,7 @@ function App(): JSX.Element {
                           onClick={() => {
                             window.localStorage.setItem('loginEmail', email);
                             sendSignInLinkToEmail(auth, email, {
-                              url: 'http://127.0.0.1:3000',
+                              url: 'https://werecycle.app',
                               handleCodeInApp: true
                             }).then(console.log).catch(console.error);
                             setShowEmailSentModal(true);
