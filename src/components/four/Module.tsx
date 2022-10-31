@@ -156,7 +156,7 @@ export default function Module4({ onComplete }: { onComplete: any }): JSX.Elemen
               </motion.div> : null}
             </AnimatePresence>
             {/* Controls */}
-            {page < 9 || score >= 20 &&
+            {(page < 9 || score >= 20) &&
             <div className="absolute bottom-12 right-12">
               <button
                 id="next-page"
