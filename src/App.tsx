@@ -155,186 +155,186 @@ function App(): JSX.Element {
         <div className="-z-10 absolute w-full h-full" id="particles" />
         <div className="w-full h-full bg-[url('/public/bg.png')] bg-top">
           <Center>
-            {!loading ?
-              <div className="w-1/2 h-auto">
-                <div className="px-12 py-10 rounded-2xl border-4 border-teal-500 backdrop-blur shadow-2xl shadow-teal-500">
-                  <div className="font-cursive text-center">
-                    <h1 className="text-3xl text-white font-bold">WeRecycle</h1>
-                    <p className="mt-1 mb-3 text-md text-gray-50">Learn how to recycle through four interactive games. Complete all 4 modules to earn a certificate!</p>
-                    {authUser ? (
-                      user ?
-                        <div>
-                          <div className="flex gap-3 mb-4 w-full justify-center">
-                            <button id="module1" onClick={() => {
-                              if (user?.progress === 0) {
-                                switchModule(1);
-                              }
-                            }} className="border-gray-300 drop-shadow-xl">
-                              <img alt="Icon for Module 1" className={`${user?.progress === 0 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module1/icon.png" />
-                            </button>
-                            <button id="module2" onClick={() => {
-                              if (user?.progress === 1) {
-                                switchModule(2);
-                              }
-                            }} className="border-gray-300 drop-shadow-xl">
-                              <img alt="Icon for Module 2" className={`${user?.progress === 1 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module2/icon.png" />
-                            </button>
-                            <button id="module3" onClick={() => {
-                              if (user?.progress === 2) {
-                                switchModule(3);
-                              }
-                            }} className="border-gray-300 drop-shadow-xl">
-                              <img alt="Icon for Module 3" className={`${user?.progress === 2 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module3/icon.png" />
-                            </button>
-                            <button id="module4" onClick={() => {
-                              if (user?.progress === 3) {
-                                switchModule(4);
-                              }
-                            }} className="border-gray-300 drop-shadow-xl">
-                              <img alt="Icon for Module 4" className={`${user?.progress === 3 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module4/icon.png" />
-                            </button>
-                          </div>
-                          <button
-                            id="get-certificate"
-                            type="button"
-                            onClick={() => { if (user?.progress === 4) setShowCertificate(true) }}
-                            disabled={user?.progress !== 4}
-                            className={`${user?.progress === 4 ? 'hover:bg-teal-700 ripple' : ''} transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900`}
-                          >
-                            {
-                              user?.progress === 4 ? <>
-                                <CheckBadgeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                                Get your certificate!
-                              </> : <>
-                                <PresentationChartLineIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                                Progress to certificate: {user?.progress}/4
-                              </>
-                            }
-                          </button>
-                        </div> : <div>
-                          <div>
-                            <label htmlFor="name" className="text-left block text-sm font-medium text-gray-400">
-                              Your Name
-                            </label>
-                            <div className="mt-1">
-                              <input
-                                type="text"
-                                name="name"
-                                id="name"
-                                onChange={(e) => setName(e.target.value)}
-                                className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
-                                placeholder="John Doe"
-                              />
-                            </div>
-                          </div>
-                          <div className="mt-2">
-                            <label htmlFor="group-code" className="text-left block text-sm font-medium text-gray-400">
-                              Group Code (Optional)
-                            </label>
-                            <div className="mt-1">
-                              <input
-                                type="text"
-                                name="group-code"
-                                id="group-code"
-                                onChange={(e) => setGroupCode(e.target.value)}
-                                className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
-                                placeholder="123456"
-                              />
-                              <p className="text-left mt-2 text-xs text-gray-400" id="group-code-description">
-                                A teacher or parent may provide this so they can track your progress.
-                              </p>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={async () => {
-                              if (!name) return alert('Your account name is required to play. Feel free to choose a pseudonym if you\'re uncomfortable providing one.');
-
-                              if (groupCode) {
-                                const group = (await getDoc(doc(database, 'groups', groupCode))).data();
-                                if (!group) return alert('That group does not exist. Please double check the code!');
-                              }
-
-                              await setDoc(doc(database, 'users', authUser.uid), {
-                                name,
-                                groupId: groupCode || null,
-                                progress: 0,
-                              });
-
-                              setUser({
-                                name,
-                                groupId: groupCode || null,
-                                progress: 0,
-                              });
-                            }}
-                            className="mt-3 flex justify-center ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
-                          >
-                            <CheckIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                            Save and Continue
-                          </button>
-                        </div>
-                    ) : <div>
+            <div className={`${loading && 'hidden'} w-1/2 h-auto`}>
+              <div className="px-12 py-10 rounded-2xl border-4 border-teal-500 backdrop-blur shadow-2xl shadow-teal-500">
+                <div className="font-cursive text-center">
+                  <h1 className="text-3xl text-white font-bold">WeRecycle</h1>
+                  <p className="mt-1 mb-3 text-md text-gray-50">Learn how to recycle through four interactive games. Complete all 4 modules to earn a certificate!</p>
+                  {authUser ? (
+                    user ?
                       <div>
-                        <label htmlFor="email" className="text-left block text-sm font-medium text-gray-400">
-                          Email
-                        </label>
-                        <div className="mt-1">
-                          <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
-                            placeholder="you@example.com"
-                          />
+                        <div className="flex gap-3 mb-4 w-full justify-center">
+                          <button id="module1" onClick={() => {
+                            if (user?.progress === 0) {
+                              switchModule(1);
+                            }
+                          }} className="border-gray-300 drop-shadow-xl">
+                            <img alt="Icon for Module 1" className={`${user?.progress === 0 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module1/icon.png" />
+                          </button>
+                          <button id="module2" onClick={() => {
+                            if (user?.progress === 1) {
+                              switchModule(2);
+                            }
+                          }} className="border-gray-300 drop-shadow-xl">
+                            <img alt="Icon for Module 2" className={`${user?.progress === 1 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module2/icon.png" />
+                          </button>
+                          <button id="module3" onClick={() => {
+                            if (user?.progress === 2) {
+                              switchModule(3);
+                            }
+                          }} className="border-gray-300 drop-shadow-xl">
+                            <img alt="Icon for Module 3" className={`${user?.progress === 2 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module3/icon.png" />
+                          </button>
+                          <button id="module4" onClick={() => {
+                            if (user?.progress === 3) {
+                              switchModule(4);
+                            }
+                          }} className="border-gray-300 drop-shadow-xl">
+                            <img alt="Icon for Module 4" className={`${user?.progress === 3 ? 'grayscale-0' : 'grayscale'} rounded-lg w-14 h-14`} src="/module4/icon.png" />
+                          </button>
                         </div>
-                      </div>
-                      <div className="flex justify-center mt-3 gap-3">
+                        <button
+                          id="get-certificate"
+                          type="button"
+                          onClick={() => { if (user?.progress === 4) setShowCertificate(true) }}
+                          disabled={user?.progress !== 4}
+                          className={`${user?.progress === 4 ? 'hover:bg-teal-700 ripple' : ''} transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900`}
+                        >
+                          {
+                            user?.progress === 4 ? <>
+                              <CheckBadgeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                              Get your certificate!
+                            </> : <>
+                              <PresentationChartLineIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                              Progress to certificate: {user?.progress}/4
+                            </>
+                          }
+                        </button>
+                      </div> : <div>
+                        <div>
+                          <label htmlFor="name" className="text-left block text-sm font-medium text-gray-400">
+                            Your Name
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="text"
+                              name="name"
+                              id="name"
+                              onChange={(e) => setName(e.target.value)}
+                              className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+                              placeholder="John Doe"
+                            />
+                          </div>
+                        </div>
+                        <div className="mt-2">
+                          <label htmlFor="group-code" className="text-left block text-sm font-medium text-gray-400">
+                            Group Code (Optional)
+                          </label>
+                          <div className="mt-1">
+                            <input
+                              type="text"
+                              name="group-code"
+                              id="group-code"
+                              onChange={(e) => setGroupCode(e.target.value)}
+                              className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+                              placeholder="123456"
+                            />
+                            <p className="text-left mt-2 text-xs text-gray-400" id="group-code-description">
+                              A teacher or parent may provide this so they can track your progress.
+                            </p>
+                          </div>
+                        </div>
                         <button
                           type="button"
-                          onClick={() => {
-                            window.localStorage.setItem('loginEmail', email);
-                            sendSignInLinkToEmail(auth, email, {
-                              url: 'https://werecycle.app',
-                              handleCodeInApp: true
-                            }).then(console.log).catch(console.error);
-                            setShowEmailSentModal(true);
+                          onClick={async () => {
+                            if (!name) return alert('Your account name is required to play. Feel free to choose a pseudonym if you\'re uncomfortable providing one.');
+
+                            if (groupCode) {
+                              const group = (await getDoc(doc(database, 'groups', groupCode))).data();
+                              if (!group) return alert('That group does not exist. Please double check the code!');
+                            }
+
+                            await setDoc(doc(database, 'users', authUser.uid), {
+                              name,
+                              groupId: groupCode || null,
+                              progress: 0,
+                            });
+
+                            setUser({
+                              name,
+                              groupId: groupCode || null,
+                              progress: 0,
+                            });
                           }}
-                          className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                          className="mt-3 flex justify-center ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
                         >
-                          <EnvelopeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                          Email Link
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => signInWithPopup(auth, googleProvider)}
-                          className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
-                        >
-                          <LinkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                          Use Google
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => signInAnonymously(auth)}
-                          className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
-                        >
-                          <XMarkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
-                          Play Signed Out
+                          <CheckIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                          Save and Continue
                         </button>
                       </div>
-                    </div>}
-                  </div>
+                  ) : <div>
+                    <div>
+                      <label htmlFor="email" className="text-left block text-sm font-medium text-gray-400">
+                        Email
+                      </label>
+                      <div className="mt-1">
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="transition duration-200 text-white bg-teal-900/30 block w-full rounded-md border-teal-700 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+                          placeholder="you@example.com"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center mt-3 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.localStorage.setItem('loginEmail', email);
+                          sendSignInLinkToEmail(auth, email, {
+                            url: 'https://werecycle.app',
+                            handleCodeInApp: true
+                          }).then(console.log).catch(console.error);
+                          setShowEmailSentModal(true);
+                        }}
+                        className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                      >
+                        <EnvelopeIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                        Email Link
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => signInWithPopup(auth, googleProvider)}
+                        className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                      >
+                        <LinkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                        Use Google
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => signInAnonymously(auth)}
+                        className="ripple transition duration-200 inline-flex items-center rounded-md border border-transparent bg-teal-600 hover:bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-teal-900"
+                      >
+                        <XMarkIcon className="mr-2 -ml-1 h-5 w-5" aria-hidden="true" />
+                        Play Signed Out
+                      </button>
+                    </div>
+                  </div>}
                 </div>
-                {user &&
+              </div>
+              {user &&
                 <div className="relative m-2 font-cursive text-gray-400">
                   <button onClick={() => {
                     signOut(auth);
                     window.location.reload();
                   }} className="cursor-pointer text-gray-300 mr-1">Log out</button> • <a href="/manage" className="text-gray-300 mr-1">Progress Tracking</a>
                 </div>}
-              </div> : <FadeLoader className="ml-12" color="#14b8a6" />}
+            </div>
+            {loading && <FadeLoader className="ml-12" color="#14b8a6" />}
           </Center>
         </div>
       </>
