@@ -119,7 +119,7 @@ export default function Admin(): JSX.Element {
         <main className="-mt-32 h-full">
           <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
             {/* Replace with your content */}
-            <div className="h-[30rem] rounded-lg bg-gray-700 px-8 py-6 shadow border-2 border-gray-900">
+            <div className="h-[27.5rem] rounded-lg bg-gray-700 px-8 py-6 shadow border-2 border-gray-900">
               {!loading ? <>
                 {group ? <div>
                   <div className="flex justify-between">
