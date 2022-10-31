@@ -159,8 +159,8 @@ function App(): JSX.Element {
               <div className="w-1/2 h-auto">
                 <div className="px-12 py-10 rounded-2xl border-4 border-teal-500 backdrop-blur shadow-2xl shadow-teal-500">
                   <div className="font-cursive text-center">
-                    <h1 className="text-3xl text-white font-bold">Learn to recycle!</h1>
-                    <p className="mt-1 mb-3 text-md text-gray-50">A fun game to teach kids how to recycle. Complete all 4 modules to earn a certificate!</p>
+                    <h1 className="text-3xl text-white font-bold">Learn to Recycle!</h1>
+                    <p className="mt-1 mb-3 text-md text-gray-50">Learn all about recycling by playing four interactive games. Earn a certificate of completion when you're done!</p>
                     {authUser ? (
                       user ?
                         <div>
