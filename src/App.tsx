@@ -146,7 +146,7 @@ function App(): JSX.Element {
     return (
       <>
         <CompletionModal open={showBadge} setOpen={setShowBadge} progress={user?.progress} />
-        <CertificateModal open={showCertificate} setOpen={setShowCertificate} />
+        <CertificateModal open={showCertificate} setOpen={setShowCertificate} user={user} />
         <LoginEmailModal open={showEmailSentModal} setOpen={setShowEmailSentModal} />
         <AnimatePresence>
           {backFading ? <motion.div initial={{ opacity: 1 }} animate={{ opacity: 0 }} className="z-30 absolute w-full h-full bg-black transition duration-500" /> : null}
@@ -403,7 +403,7 @@ export function CompletionModal({ open, setOpen, progress }: { open: boolean, se
   )
 }
 
-export function CertificateModal({ open, setOpen }: { open: boolean, setOpen: any }) {
+export function CertificateModal({ open, setOpen, user }: { open: boolean, setOpen: any, user: any }) {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={setOpen}>
@@ -441,7 +441,7 @@ export function CertificateModal({ open, setOpen }: { open: boolean, setOpen: an
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="font-cursive text-sm text-gray-400">
-                        You completed the game and learned all about recycling. You can now generate and download your certificate.
+                        You completed the game and learned all about recycling. You can now generate and download your certificate. Please be patient as this process may take a few seconds!
                       </p>
                     </div>
                   </div>
@@ -451,6 +451,7 @@ export function CertificateModal({ open, setOpen }: { open: boolean, setOpen: an
                     type="button"
                     className="ripple transition duration-200 inline-flex w-full justify-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-gray-900 sm:text-sm"
                     onClick={() => {
+                      window.location.href = `https://us-central1-werecycle-d5675.cloudfunctions.net/generateCertificate?name=${encodeURIComponent(user.name)}`;
                       setOpen(false);
                     }}
                   >
