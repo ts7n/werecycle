@@ -70,7 +70,7 @@ function App(): JSX.Element {
     (window as any).tippy('#module4', {
       content: 'What can I recycle?'
     });
-  }, [module, loading]);
+  }, [module, loading, authUser, user]);
 
   useEffect(() => {
     auth.onAuthStateChanged(async (state) => {
