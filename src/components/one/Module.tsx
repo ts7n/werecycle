@@ -9,7 +9,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
   const [fading, setFading] = useState(false);
 
   const nextPage = () => {
-    if (page >= 5) {
+    if (page === 5) {
       setLeaving(true);
       setTimeout(() => {
         onComplete();
