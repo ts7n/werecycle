@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Center from "../Center";
 
 export default function Module1({ onComplete }: { onComplete: any }): JSX.Element {
+  const [completed, setCompleted] = useState(false);
   const [page, setPage] = useState(1);
   const [leaving, setLeaving] = useState(false);
   const [fading, setFading] = useState(false);
@@ -11,6 +12,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
   const nextPage = () => {
     if (page === 5) {
       setLeaving(true);
+      setCompleted(true);
       setTimeout(() => {
         onComplete();
       }, 500);
@@ -28,6 +30,7 @@ export default function Module1({ onComplete }: { onComplete: any }): JSX.Elemen
 
   useEffect(() => {
     window.onkeypress = (e) => {
+      if(completed) return;
       if(page === 5) return;
       if (e.key === ' ') nextPage();
     }
